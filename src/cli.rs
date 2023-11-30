@@ -1,7 +1,12 @@
 use clap::{Parser, Subcommand};
 
 #[derive(Parser, Debug)]
-#[command(author = "eramoss", version = "0.1.0", about, long_about = None)]
+#[command(
+    author = "eramoss",
+    version = "0.1.0",
+    about = "A command-line music player control utility.",
+    long_about = "CLI app for controlling a music player. You can play, pause, stop, skip tracks, adjust volume, and more with ease."
+)]
 pub struct Args {
     #[command(subcommand)]
     command: Command,
