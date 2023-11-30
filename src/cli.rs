@@ -14,15 +14,38 @@ pub struct Args {
 
 #[derive(Subcommand, Debug)]
 enum Command {
-    Play { player: String },
-    Pause { player: String },
-    Stop { player: String },
-    Next { player: String },
-    Previous { player: String },
-    Volume { level: i32, player: String },
-    Info { player: String },
-    Seek { position: String, player: String },
-    List { player: String },
-    Shuffle { player: String },
-    Position { player: String },
+    Play {
+        player: Option<String>,
+    },
+    Pause {
+        player: Option<String>,
+    },
+    Stop {
+        player: Option<String>,
+    },
+    Next {
+        player: Option<String>,
+    },
+    Previous {
+        player: Option<String>,
+    },
+    Volume {
+        level: i32,
+        player: Option<String>,
+    },
+    Info,
+    Seek {
+        position: String,
+        player: Option<String>,
+    },
+    List,
+    Status {
+        player: Option<String>,
+    },
+    Shuffle {
+        player: Option<String>,
+    },
+    Position {
+        player: Option<String>,
+    },
 }
