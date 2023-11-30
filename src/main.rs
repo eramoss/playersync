@@ -1,3 +1,7 @@
+use clap::Parser;
+use playersync::cli;
 fn main() {
-    println!("Hello, world!");
+    let args = cli::Args::parse();
+
+    dbg!(args);
 }
