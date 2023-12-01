@@ -9,11 +9,14 @@ use clap::{Parser, Subcommand};
 )]
 pub struct Args {
     #[command(subcommand)]
-    command: Command,
+    pub command: Command,
 }
 
 #[derive(Subcommand, Debug)]
-enum Command {
+pub enum Command {
+    PlayPause {
+        player: Option<String>,
+    },
     Play {
         player: Option<String>,
     },
