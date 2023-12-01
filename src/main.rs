@@ -16,34 +16,27 @@ fn main() -> anyhow::Result<()> {
                 println!("{}", name);
             }
         }
-        cli::Command::PlayPause { player } => match player {
-            Some(player_name) => {
-                let proxy = connection.with_proxy(
-                    format!("org.mpris.MediaPlayer2.{}", player_name),
-                    "/org/mpris/MediaPlayer2",
-                    std::time::Duration::from_millis(5000),
-                );
-                proxy
-                    .method_call("org.mpris.MediaPlayer2.Player", "PlayPause", ())
-                    .context("Call the method to player name provided by user")?;
-            }
-            None => {
+        cli::Command::PlayPause { player } => {
+            let mut player_name = String::new();
+            if let Some(player) = player {
+                player_name = format!("org.mpris.MediaPlayer2.{}", player);
+            } else {
                 let player_names = get_player_names(&connection)?;
 
-                let first_player = player_names
+                player_name = player_names
                     .first()
-                    .expect("Unable to get first player running");
-
-                let proxy = connection.with_proxy(
-                    first_player,
-                    "/org/mpris/MediaPlayer2",
-                    std::time::Duration::from_millis(5000),
-                );
-                proxy
-                    .method_call("org.mpris.MediaPlayer2.Player", "PlayPause", ())
-                    .context("Call the method to first player encountered")?;
+                    .expect("Unable to get first player running")
+                    .to_string();
             }
-        },
+            let proxy = connection.with_proxy(
+                player_name,
+                "/org/mpris/MediaPlayer2",
+                std::time::Duration::from_millis(5000),
+            );
+            proxy
+                .method_call("org.mpris.MediaPlayer2.Player", "PlayPause", ())
+                .context("Call playPause to dbus")?;
+        }
 
         _ => {
             todo!()
